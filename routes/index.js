@@ -27,8 +27,8 @@ router.get('/home', async (req, res) => {
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Database Test' });
 });
-
-rout/*er.get('/home', function(req, res, next) {
+/*
+router.get('/home', function(req, res, next) {
   res.render('home');
 });
 */
