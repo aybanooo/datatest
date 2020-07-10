@@ -2,24 +2,26 @@ var express = require('express');
 var router = express.Router();
 
 //add database
-const { Client } = require('pg');
-
-const client = new Client({
+const { Pool } = require('pg');
+const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }
 });
 
-client.connect();
-
-client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-  if (err) throw err;
-  for (let row of res.rows) {
-    console.log(JSON.stringify(row));
+router.get('/db', async (req, res) => {
+  try {
+    const client = await pool.connect();
+    const result = await client.query('SELECT * FROM test_table');
+    const results = { 'results': (result) ? result.rows : null};
+    res.send(JSON.stringify(results));
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
   }
-  client.end();
-});
+})
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
