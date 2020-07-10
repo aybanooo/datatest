@@ -10,7 +10,7 @@ const pool = new Pool({
   }
 });
 
-router.get('/db', async (req, res) => {
+router.get('/home', async (req, res) => {
   try {
     const client = await pool.connect();
     const result = await client.query('SELECT * FROM test_table');
@@ -28,8 +28,9 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Database Test' });
 });
 
-router.get('/home', function(req, res, next) {
+rout/*er.get('/home', function(req, res, next) {
   res.render('home');
 });
+*/
 
 module.exports = router;
